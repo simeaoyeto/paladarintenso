@@ -274,7 +274,7 @@ function updateSummary() {
     const tierLabel = builderState.tiers === 'naked' ? 'Naked cake' : `${builderState.tiers} andar(es)`;
     items.push(['Base', tierLabel]);
   }
-  if (builderState.flavor) items.push(['Sabor', builderState.flavor]);
+  if (builderState.flavor) items.push(['Sabor da massa', builderState.flavor]);
   if (builderState.covering) items.push(['Cobertura', builderState.covering]);
   if (builderState.size) items.push(['Tamanho', builderState.size]);
   if (builderState.decoration) items.push(['Decoração', builderState.decoration]);
@@ -305,7 +305,7 @@ function buildCustomCakeMessage() {
     `Olá, Paladar Intenso! Chamo-me ${builderState.name || '—'} e gostaria de encomendar um bolo personalizado:`,
     `• *Ocasião:* ${builderState.occasion || '—'}`,
     `• *Base:* ${tierLabel}`,
-    `• *Sabor:* ${builderState.flavor || '—'}`,
+    `• *Sabor da massa:* ${builderState.flavor || '—'}`,
     `• *Cobertura:* ${builderState.covering || '—'}`,
     `• *Tamanho:* ${builderState.size || '—'}`,
     `• *Decoração:* ${builderState.decoration || '—'}`
@@ -315,6 +315,7 @@ function buildCustomCakeMessage() {
   if (builderState.message) parts.push(`• *Mensagem no bolo:* "${builderState.message}"`);
   if (builderState.date) parts.push(`• *Data desejada:* ${formatDate(builderState.date)}`);
   if (builderState.notes) parts.push(`• *Notas:* ${builderState.notes}`);
+  if (getAttachedImage('cake-image')) parts.push('• *Bolo modelo:* tenho uma imagem de referência para enviar');
 
   parts.push('Aguardo o vosso contacto!');
   return parts.join('\n\n');

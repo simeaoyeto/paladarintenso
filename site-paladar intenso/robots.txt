@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.paladarintenso.ao/sitemap.xml
+Sitemap: https://paladarintenso.ao/sitemap.xml

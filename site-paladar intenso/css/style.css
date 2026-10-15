@@ -777,7 +777,7 @@ a {
 }
 
 .builder__payment-note {
-  margin-top: var(--space-sm);
+  margin-top: var(--space-md);
   font-size: 0.75rem;
   color: var(--color-muted);
   text-align: center;
@@ -793,6 +793,58 @@ a {
 @keyframes builder-fade-in {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Alternador de modo (bolo / outro produto) ---- */
+
+.builder__mode-toggle {
+  display: flex;
+  max-width: 480px;
+  margin: 0 auto var(--space-lg);
+  border: 1px solid var(--color-border);
+}
+
+.builder__mode-btn {
+  flex: 1;
+  padding: 0.9rem var(--space-md);
+  border: none;
+  background: var(--color-bg);
+  color: var(--color-muted);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.builder__mode-btn:first-child {
+  border-right: 1px solid var(--color-border);
+}
+
+.builder__mode-btn:hover:not(.active) {
+  color: var(--color-text);
+}
+
+.builder__mode-btn.active {
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+
+.builder__other-panel {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: var(--space-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 30px 60px -36px rgba(0, 0, 0, 0.2);
+}
+
+.other-orders__submit {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-top: var(--space-sm);
 }
 
 /* ---- Sobre Nós ---- */
@@ -830,7 +882,11 @@ a {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--space-lg);
-  align-items: center;
+  align-items: start;
+}
+
+.about__portrait {
+  max-width: 420px;
 }
 
 .about__photo {
@@ -847,20 +903,32 @@ a {
   object-position: center center;
 }
 
-.about__name {
-  font-family: var(--font-serif);
-  font-size: clamp(1.8rem, 3vw, 2.5rem);
-  font-weight: 400;
-  margin-bottom: 0.25rem;
+.about__caption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--color-border);
 }
 
-.about__role {
-  font-size: 0.75rem;
+.about__caption-name {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+}
+
+.about__caption-role {
+  font-size: 0.7rem;
   font-weight: 500;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--color-muted);
-  margin-bottom: var(--space-md);
+  white-space: nowrap;
+}
+
+.about__text {
+  padding-top: var(--space-xs);
 }
 
 .about__bio p {
@@ -1051,6 +1119,176 @@ a {
 }
 
 .gallery-modal__order {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+/* ---- Ações flutuantes ---- */
+
+.floating-whatsapp {
+  position: fixed;
+  right: var(--space-md);
+  bottom: var(--space-md);
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-text);
+  color: var(--color-bg);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  transition: var(--transition);
+}
+
+.floating-whatsapp:hover {
+  transform: scale(1.08);
+}
+
+.back-to-top {
+  position: fixed;
+  right: var(--space-md);
+  bottom: calc(var(--space-md) + 68px);
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transition: var(--transition);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.back-to-top:hover {
+  background: var(--color-text);
+  color: var(--color-bg);
+  border-color: var(--color-text);
+}
+
+/* ---- Imagem de referência ---- */
+
+.builder__file {
+  padding: 0.6rem 0.75rem;
+  cursor: pointer;
+}
+
+.builder__file::file-selector-button {
+  margin-right: var(--space-sm);
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-text);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.builder__image-preview {
+  width: 100%;
+  max-width: 220px;
+  max-height: 220px;
+  object-fit: cover;
+  border: 1px solid var(--color-border);
+}
+
+/* ---- Avaliações ---- */
+
+.reviews {
+  padding: var(--space-xl) var(--space-md);
+  max-width: 560px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.reviews__intro {
+  color: var(--color-muted);
+  margin-top: var(--space-sm);
+}
+
+.reviews__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+  text-align: left;
+}
+
+.reviews__card {
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+}
+
+.reviews__card-stars {
+  color: var(--color-text);
+  letter-spacing: 0.15em;
+}
+
+.reviews__card-comment {
+  margin: var(--space-xs) 0;
+  color: var(--color-muted);
+}
+
+.reviews__card-name {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.reviews__form {
+  margin-top: var(--space-lg);
+  padding: var(--space-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 30px 60px -36px rgba(0, 0, 0, 0.2);
+  text-align: left;
+}
+
+.reviews__stars {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.reviews__star {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-border);
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color var(--transition);
+}
+
+.reviews__star::before {
+  content: '★';
+}
+
+.reviews__star.filled {
+  color: var(--color-text);
+}
+
+.reviews__submit {
   display: block;
   width: 100%;
   text-align: center;
@@ -1274,9 +1512,13 @@ a {
     gap: var(--space-md);
   }
 
-  .about__photo {
+  .about__portrait {
     max-width: 400px;
     margin: 0 auto;
+  }
+
+  .about__text {
+    padding-top: 0;
   }
 
   .gallery__grid {

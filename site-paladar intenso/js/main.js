@@ -277,6 +277,222 @@ function initGalleryModal() {
   });
 }
 
+/* ---- Imagem de referência (anexo ao pedido) ---- */
+
+function getAttachedImage(inputId) {
+  return document.getElementById(inputId)?.files?.[0] || null;
+}
+
+function initImageAttach(inputId, previewId, onChange) {
+  const input = document.getElementById(inputId);
+  const preview = document.getElementById(previewId);
+  if (!input || !preview) return;
+
+  let previewUrl = null;
+
+  input.addEventListener('change', () => {
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
+      previewUrl = null;
+    }
+
+    const file = input.files[0];
+    if (file && file.type.startsWith('image/')) {
+      previewUrl = URL.createObjectURL(file);
+      preview.src = previewUrl;
+      preview.classList.remove('hidden');
+    } else {
+      input.value = '';
+      preview.removeAttribute('src');
+      preview.classList.add('hidden');
+    }
+
+    if (onChange) onChange();
+  });
+}
+
+// Links wa.me não aceitam anexos; em telemóveis com partilha nativa, a imagem segue junto com o texto.
+function bindShareWithImage(linkEl, inputId, getMessage) {
+  if (!linkEl) return;
+
+  linkEl.addEventListener('click', (e) => {
+    const file = getAttachedImage(inputId);
+    if (!file || !navigator.canShare || !navigator.canShare({ files: [file] })) return;
+
+    e.preventDefault();
+    navigator.share({ files: [file], text: getMessage() }).catch(() => {});
+  });
+}
+
+/* ---- Avaliações ---- */
+
+// Avaliações aprovadas para mostrar no site: { name, stars, comment }
+const REVIEWS = [];
+
+function renderReviews() {
+  const list = document.getElementById('reviews-list');
+  if (!list) return;
+
+  list.textContent = '';
+  list.classList.toggle('hidden', REVIEWS.length === 0);
+
+  REVIEWS.forEach((review) => {
+    const card = document.createElement('article');
+    card.className = 'reviews__card';
+
+    const stars = document.createElement('div');
+    stars.className = 'reviews__card-stars';
+    stars.textContent = '★'.repeat(review.stars) + '☆'.repeat(5 - review.stars);
+    stars.setAttribute('aria-label', `${review.stars} de 5 estrelas`);
+    card.appendChild(stars);
+
+    if (review.comment) {
+      const comment = document.createElement('p');
+      comment.className = 'reviews__card-comment';
+      comment.textContent = review.comment;
+      card.appendChild(comment);
+    }
+
+    const name = document.createElement('span');
+    name.className = 'reviews__card-name';
+    name.textContent = review.name;
+    card.appendChild(name);
+
+    list.appendChild(card);
+  });
+}
+
+function initReviews() {
+  const nameEl = document.getElementById('review-name');
+  const commentEl = document.getElementById('review-comment');
+  const starsEl = document.getElementById('review-stars');
+  const submitBtn = document.getElementById('review-whatsapp');
+  if (!submitBtn || !starsEl) return;
+
+  renderReviews();
+
+  let rating = 0;
+
+  function buildMessage() {
+    const parts = [
+      'Olá, Paladar Intenso! Gostaria de deixar a minha avaliação:',
+      `• *Nome:* ${nameEl.value.trim() || '—'}`,
+      `• *Avaliação:* ${rating} de 5 estrelas`
+    ];
+    if (commentEl.value.trim()) parts.push(`• *Comentário:* ${commentEl.value.trim()}`);
+    return parts.join('\n\n');
+  }
+
+  function update() {
+    const isComplete = nameEl.value.trim() && rating > 0;
+    submitBtn.href = isComplete
+      ? `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(buildMessage())}`
+      : '#';
+    submitBtn.classList.toggle('builder__order-btn--disabled', !isComplete);
+    submitBtn.setAttribute('aria-disabled', String(!isComplete));
+  }
+
+  starsEl.querySelectorAll('.reviews__star').forEach((star) => {
+    star.addEventListener('click', () => {
+      rating = Number(star.dataset.value);
+      starsEl.querySelectorAll('.reviews__star').forEach((s) => {
+        const value = Number(s.dataset.value);
+        s.classList.toggle('filled', value <= rating);
+        s.setAttribute('aria-checked', String(value === rating));
+      });
+      update();
+    });
+  });
+
+  nameEl?.addEventListener('input', update);
+  commentEl?.addEventListener('input', update);
+  update();
+}
+
+/* ---- Outras Encomendas ---- */
+
+function formatOtherOrderDate(isoDate) {
+  const [y, m, d] = isoDate.split('-');
+  return `${d}/${m}/${y}`;
+}
+
+function initOtherOrders() {
+  const nameEl = document.getElementById('other-name');
+  const itemEl = document.getElementById('other-item');
+  const quantityEl = document.getElementById('other-quantity');
+  const dateEl = document.getElementById('other-date');
+  const notesEl = document.getElementById('other-notes');
+  const submitBtn = document.getElementById('other-order-whatsapp');
+  if (!submitBtn) return;
+
+  function buildMessage() {
+    const parts = [
+      `Olá, Paladar Intenso! Chamo-me ${nameEl.value.trim() || '—'} e gostaria de fazer uma encomenda:`,
+      `• *O que pretende:* ${itemEl.value.trim() || '—'}`,
+      `• *Quantidade:* ${quantityEl.value.trim() || '—'}`,
+      `• *Data desejada:* ${dateEl.value ? formatOtherOrderDate(dateEl.value) : '—'}`
+    ];
+    if (notesEl.value.trim()) parts.push(`• *Informação adicional:* ${notesEl.value.trim()}`);
+    if (getAttachedImage('other-image')) parts.push('• *Imagem do modelo pretendido:* tenho uma imagem para enviar');
+    parts.push('Aguardo o vosso contacto!');
+    return parts.join('\n\n');
+  }
+
+  function update() {
+    const isComplete = nameEl.value.trim() && itemEl.value.trim() && quantityEl.value.trim() && dateEl.value;
+    submitBtn.href = isComplete
+      ? `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(buildMessage())}`
+      : '#';
+    submitBtn.classList.toggle('builder__order-btn--disabled', !isComplete);
+    submitBtn.setAttribute('aria-disabled', String(!isComplete));
+  }
+
+  [nameEl, itemEl, quantityEl, dateEl, notesEl].forEach((el) => {
+    el?.addEventListener('input', update);
+    el?.addEventListener('change', update);
+  });
+
+  initImageAttach('other-image', 'other-image-preview', update);
+  bindShareWithImage(submitBtn, 'other-image', buildMessage);
+
+  update();
+}
+
+/* ---- Alternador de modo (bolo / outro produto) ---- */
+
+function initBuilderModeToggle() {
+  const toggle = document.getElementById('builder-mode-toggle');
+  const cakePanel = document.getElementById('cake-mode-panel');
+  const otherPanel = document.getElementById('other-mode-panel');
+  if (!toggle) return;
+
+  toggle.querySelectorAll('.builder__mode-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      if (btn.classList.contains('active')) return;
+      toggle.querySelectorAll('.builder__mode-btn').forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+      const isCake = btn.dataset.mode === 'cake';
+      cakePanel.classList.toggle('hidden', !isCake);
+      otherPanel.classList.toggle('hidden', isCake);
+    });
+  });
+}
+
+/* ---- Ações flutuantes ---- */
+
+function initFloatingActions() {
+  const backToTop = document.getElementById('back-to-top');
+  if (!backToTop) return;
+
+  window.addEventListener('scroll', () => {
+    backToTop.classList.toggle('visible', window.scrollY > 600);
+  });
+
+  backToTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
 /* ---- Inicialização ---- */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -325,7 +541,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const whatsappLinks = [
     document.getElementById('header-whatsapp'),
-    document.getElementById('order-whatsapp')
+    document.getElementById('order-whatsapp'),
+    document.getElementById('floating-whatsapp')
   ];
 
   whatsappLinks.forEach((link) => {
@@ -334,6 +551,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   buildGallery();
   initGalleryModal();
+  initOtherOrders();
+  initBuilderModeToggle();
+  initFloatingActions();
+  initReviews();
+  initImageAttach('cake-image', 'cake-image-preview', () => updateOrderButton());
+  bindShareWithImage(document.getElementById('builder-order'), 'cake-image', () => buildCustomCakeMessage());
 
   const header = document.getElementById('header');
   window.addEventListener('scroll', () => {

@@ -3,22 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Paladar Intenso — Artes comestíveis para momentos que merecem ser lembrados. Bolos artesanais em Luanda, Angola.">
+  <meta name="description" content="Paladar Intenso — Artes comestíveis para momentos que merecem ser lembrados. Confeitaria artesanal em Luanda, Angola.">
   <title>Paladar Intenso</title>
 
-  <link rel="canonical" href="https://www.paladarintenso.ao/">
+  <link rel="canonical" href="https://paladarintenso.ao/">
 
+  <meta property="og:title" content="Paladar Intenso">
+  <meta property="og:description" content="Bolos personalizados para momentos inesquecíveis.">
+  <meta property="og:image" content="https://paladarintenso.ao/assets/og-image.jpg">
+  <meta property="og:url" content="https://paladarintenso.ao/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Paladar Intenso">
-  <meta property="og:title" content="Paladar Intenso — Bolos Artesanais em Luanda">
-  <meta property="og:description" content="Artes comestíveis para momentos que merecem ser lembrados. Bolos artesanais feitos com alma, em Luanda, Angola.">
-  <meta property="og:image" content="https://www.paladarintenso.ao/assets/images/bolo-aniversario.jpg">
-  <meta property="og:url" content="https://www.paladarintenso.ao/">
   <meta property="og:locale" content="pt_PT">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Paladar Intenso — Bolos Artesanais em Luanda">
-  <meta name="twitter:description" content="Artes comestíveis para momentos que merecem ser lembrados. Bolos artesanais feitos com alma, em Luanda, Angola.">
-  <meta name="twitter:image" content="https://www.paladarintenso.ao/assets/images/bolo-aniversario.jpg">
+  <meta name="twitter:title" content="Paladar Intenso">
+  <meta name="twitter:description" content="Bolos personalizados para momentos inesquecíveis.">
+  <meta name="twitter:image" content="https://paladarintenso.ao/assets/og-image.jpg">
   <meta name="theme-color" content="#111111">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,9 +32,9 @@
     "@context": "https://schema.org",
     "@type": "Bakery",
     "name": "Paladar Intenso",
-    "description": "Artes comestíveis para momentos que merecem ser lembrados. Bolos artesanais em Luanda, Angola.",
-    "image": "https://www.paladarintenso.ao/assets/images/bolo-aniversario.jpg",
-    "url": "https://www.paladarintenso.ao/",
+    "description": "Artes comestíveis para momentos que merecem ser lembrados. Confeitaria artesanal em Luanda, Angola.",
+    "image": "https://paladarintenso.ao/assets/og-image.jpg",
+    "url": "https://paladarintenso.ao/",
     "telephone": "+244946368996",
     "address": {
       "@type": "PostalAddress",
@@ -63,10 +63,11 @@
         <a href="#montar" class="nav-link">Monte o Seu</a>
         <a href="#galeria" class="nav-link">Galeria</a>
         <a href="#sobre" class="nav-link">Sobre Nós</a>
+        <a href="#avaliacoes" class="nav-link">Avaliações</a>
         <a href="#contactos" class="nav-link">Contactos</a>
       </nav>
 
-      <a href="#" class="btn btn--primary header__cta" id="header-whatsapp">
+      <a href="#" class="btn btn--primary header__cta" id="header-whatsapp" target="_blank" rel="noopener">
         Encomendar
       </a>
 
@@ -111,21 +112,26 @@
     <div class="carousel__info" id="carousel-info">
       <h2 class="carousel__title" id="carousel-title"></h2>
       <p class="carousel__desc" id="carousel-desc"></p>
-      <a href="#" class="btn btn--primary carousel__order" id="carousel-order">
+      <a href="#" class="btn btn--primary carousel__order" id="carousel-order" target="_blank" rel="noopener">
         Encomendar pelo WhatsApp
       </a>
     </div>
   </section>
 
-  <!-- Monte o Seu Bolo -->
+  <!-- Monte o Seu Pedido -->
   <section class="builder" id="montar">
     <div class="builder__header">
       <span class="section-label">Personalizar</span>
-      <h2 class="section-title">Monte o seu bolo</h2>
-      <p class="builder__intro">Escolha cada detalhe e finalize a encomenda pelo WhatsApp.</p>
+      <h2 class="section-title">Monte o seu pedido</h2>
+      <p class="builder__intro">Somos confeiteiros — escolha um bolo personalizado ou peça outro produto, e finalize pelo WhatsApp.</p>
     </div>
 
-    <div class="builder__layout">
+    <div class="builder__mode-toggle" id="builder-mode-toggle">
+      <button type="button" class="builder__mode-btn active" data-mode="cake">Bolo personalizado</button>
+      <button type="button" class="builder__mode-btn" data-mode="other">Outras Encomendas</button>
+    </div>
+
+    <div class="builder__layout" id="cake-mode-panel">
       <div class="builder__preview">
         <div class="builder__cake" id="cake-preview" aria-hidden="true">
           <div class="builder__cake-toppers" id="cake-toppers"></div>
@@ -177,7 +183,7 @@
 
           <!-- Passo 3: Sabor -->
           <div class="builder__step" data-step="2">
-            <h3 class="builder__step-title">Qual o sabor?</h3>
+            <h3 class="builder__step-title">Qual o sabor da massa?</h3>
             <div class="builder__options" data-field="flavor">
               <button type="button" class="builder__option builder__option--swatch" data-value="Chocolate"><span class="builder__swatch" style="background:#3d2314"></span>Chocolate</button>
               <button type="button" class="builder__option builder__option--swatch" data-value="Red Velvet"><span class="builder__swatch" style="background:#8b2942"></span>Red Velvet</button>
@@ -267,6 +273,13 @@
               <textarea id="cake-notes" class="builder__input builder__textarea" rows="3" placeholder="Alergias, referências, cores preferidas..."></textarea>
             </div>
 
+            <div class="builder__field">
+              <label class="builder__label" for="cake-image">Imagem do bolo modelo (opcional)</label>
+              <input type="file" id="cake-image" class="builder__input builder__file" accept="image/*">
+              <img class="builder__image-preview hidden" id="cake-image-preview" alt="Pré-visualização do bolo modelo">
+              <span class="builder__hint">Se a imagem não seguir automaticamente, anexe-a na conversa do WhatsApp.</span>
+            </div>
+
             <div class="builder__summary" id="builder-summary">
               <h4 class="builder__summary-title">Resumo da encomenda</h4>
               <ul class="builder__summary-list" id="summary-list"></ul>
@@ -281,10 +294,49 @@
             Finalizar encomenda
           </a>
         </div>
-
-        <p class="builder__payment-note">Encomenda confirmada apenas após o pagamento. Não aceitamos pagamentos parciais (50%).</p>
       </div>
     </div>
+
+    <div class="builder__other-panel hidden" id="other-mode-panel">
+      <div class="builder__field">
+        <label class="builder__label" for="other-name">O seu nome</label>
+        <input type="text" id="other-name" class="builder__input" placeholder="Como se chama?">
+      </div>
+
+      <div class="builder__field">
+        <label class="builder__label" for="other-item">O que pretende encomendar</label>
+        <textarea id="other-item" class="builder__input builder__textarea" rows="3" placeholder="Ex: Cupcakes, torta, doces para festa..."></textarea>
+      </div>
+
+      <div class="builder__field">
+        <label class="builder__label" for="other-quantity">Quantidade</label>
+        <input type="text" id="other-quantity" class="builder__input" placeholder="Ex: 20 unidades, 2 bandejas...">
+      </div>
+
+      <div class="builder__field">
+        <label class="builder__label" for="other-date">Data desejada</label>
+        <input type="date" id="other-date" class="builder__input">
+        <span class="builder__hint">Antecedência mínima: 5 dias.</span>
+      </div>
+
+      <div class="builder__field">
+        <label class="builder__label" for="other-notes">Informação adicional (opcional)</label>
+        <textarea id="other-notes" class="builder__input builder__textarea" rows="3" placeholder="Alergias, preferências, local de entrega..."></textarea>
+      </div>
+
+      <div class="builder__field">
+        <label class="builder__label" for="other-image">Imagem do modelo pretendido (opcional)</label>
+        <input type="file" id="other-image" class="builder__input builder__file" accept="image/*">
+        <img class="builder__image-preview hidden" id="other-image-preview" alt="Pré-visualização do modelo">
+        <span class="builder__hint">Se a imagem não seguir automaticamente, anexe-a na conversa do WhatsApp.</span>
+      </div>
+
+      <a href="#" class="btn btn--primary other-orders__submit" id="other-order-whatsapp" target="_blank" rel="noopener">
+        Pedir pelo WhatsApp
+      </a>
+    </div>
+
+    <p class="builder__payment-note">Encomenda confirmada apenas após o pagamento. Não aceitamos pagamentos parciais (50%).</p>
   </section>
 
   <!-- Galeria -->
@@ -310,12 +362,16 @@
     </div>
 
     <div class="about__founder">
-      <div class="about__photo">
-        <img src="assets/images/fundadora.jpg" alt="Ester da Costa — Confeiteira e fundadora do Paladar Intenso" id="founder-photo" class="loaded">
-      </div>
+      <figure class="about__portrait">
+        <div class="about__photo">
+          <img src="assets/images/fundadora.jpg" alt="Ester da Costa — Confeiteira e fundadora do Paladar Intenso" id="founder-photo" class="loaded">
+        </div>
+        <figcaption class="about__caption">
+          <span class="about__caption-name">Ester da Costa</span>
+          <span class="about__caption-role">Confeiteira</span>
+        </figcaption>
+      </figure>
       <div class="about__text">
-        <h3 class="about__name">Ester da Costa</h3>
-        <p class="about__role">Confeiteira</p>
         <div class="about__bio">
           <p>
             Ester da Costa fundou o Paladar Intenso em 2016 e continua a acompanhar de perto cada
@@ -340,6 +396,44 @@
     </div>
   </section>
 
+  <!-- Avaliações -->
+  <section class="reviews" id="avaliacoes">
+    <div class="reviews__header">
+      <span class="section-label">Avaliações</span>
+      <h2 class="section-title">A sua opinião conta</h2>
+      <p class="reviews__intro">Já provou os nossos bolos? Deixe o seu nome e diga-nos quantas estrelas nos dá.</p>
+    </div>
+
+    <div class="reviews__list" id="reviews-list"></div>
+
+    <div class="reviews__form">
+      <div class="builder__field">
+        <label class="builder__label" for="review-name">O seu nome</label>
+        <input type="text" id="review-name" class="builder__input" placeholder="Como se chama?">
+      </div>
+
+      <div class="builder__field">
+        <span class="builder__label" id="review-stars-label">Quantas estrelas?</span>
+        <div class="reviews__stars" id="review-stars" role="radiogroup" aria-labelledby="review-stars-label">
+          <button type="button" class="reviews__star" role="radio" aria-checked="false" aria-label="1 estrela" data-value="1"></button>
+          <button type="button" class="reviews__star" role="radio" aria-checked="false" aria-label="2 estrelas" data-value="2"></button>
+          <button type="button" class="reviews__star" role="radio" aria-checked="false" aria-label="3 estrelas" data-value="3"></button>
+          <button type="button" class="reviews__star" role="radio" aria-checked="false" aria-label="4 estrelas" data-value="4"></button>
+          <button type="button" class="reviews__star" role="radio" aria-checked="false" aria-label="5 estrelas" data-value="5"></button>
+        </div>
+      </div>
+
+      <div class="builder__field">
+        <label class="builder__label" for="review-comment">Comentário (opcional)</label>
+        <textarea id="review-comment" class="builder__input builder__textarea" rows="3" placeholder="Conte-nos como foi a sua experiência..."></textarea>
+      </div>
+
+      <a href="#" class="btn btn--primary reviews__submit builder__order-btn--disabled" id="review-whatsapp" target="_blank" rel="noopener" aria-disabled="true">
+        Enviar avaliação pelo WhatsApp
+      </a>
+    </div>
+  </section>
+
   <!-- Encomendas -->
   <section class="order-cta">
     <div class="order-cta__content">
@@ -349,7 +443,7 @@
         <p>Envie-nos uma mensagem.</p>
         <p>Nós tratamos do resto.</p>
       </div>
-      <a href="#" class="btn btn--primary btn--large" id="order-whatsapp">
+      <a href="#" class="btn btn--primary btn--large" id="order-whatsapp" target="_blank" rel="noopener">
         Encomendar pelo WhatsApp
       </a>
 
@@ -427,6 +521,19 @@
       </div>
     </div>
   </dialog>
+
+  <!-- Ações flutuantes -->
+  <button type="button" class="back-to-top" id="back-to-top" aria-label="Voltar ao topo">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M12 19V5M5 12l7-7 7 7"/>
+    </svg>
+  </button>
+  <a href="#" class="floating-whatsapp" id="floating-whatsapp" aria-label="Encomendar pelo WhatsApp" target="_blank" rel="noopener">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M6.5 17.5l-1.2 3.5 3.6-1.2c1.2.7 2.6 1 4.1 1 4.7 0 8.5-3.8 8.5-8.4S17.7 4 13 4 4.5 7.8 4.5 12.4c0 1.6.4 3 1.2 4.3z"/>
+      <path d="M9.5 9.8c0-.4.4-.8.8-.8h.6c.3 0 .6.2.7.5l.5 1.3c.1.3 0 .6-.2.8l-.5.5c.4 1 1.2 1.8 2.2 2.2l.5-.5c.2-.2.5-.3.8-.2l1.3.5c.3.1.5.4.5.7v.6c0 .4-.4.8-.8.8-3 0-6.4-3.4-6.4-6.4z"/>
+    </svg>
+  </a>
 
   <script src="js/main.js"></script>
   <script src="js/builder.js"></script>
